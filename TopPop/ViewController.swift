@@ -7,13 +7,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ChartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    override func viewDidAppear(_ animated: Bool) {
+        WebService.fetchTracks(completion: { response, error in
+            print(response)
+        })
+        
+        WebService.fetchAlbum(albumID: "", completion: { response, error in
+            print("\n\n \(response)")
+        })
+    }
 }
 
