@@ -52,8 +52,12 @@
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="D2x-AU-PE2">
+                                                    <rect key="frame" x="352" y="30" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="D2x-AU-PE2" secondAttribute="trailing" constant="4.5" id="3T5-YH-BZU"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="GVe-AI-mBU" secondAttribute="trailing" constant="32" id="4QG-D1-pCx"/>
                                                 <constraint firstItem="IWM-Sx-meE" firstAttribute="leading" secondItem="8B1-u8-cgP" secondAttribute="trailing" constant="8" symbolic="YES" id="9qx-R0-Mff"/>
                                                 <constraint firstItem="8B1-u8-cgP" firstAttribute="leading" secondItem="Jx0-m4-JR1" secondAttribute="leading" constant="15" id="E5Y-Sr-mA7"/>
@@ -63,6 +67,8 @@
                                                 <constraint firstItem="pOE-gI-gGI" firstAttribute="top" secondItem="IWM-Sx-meE" secondAttribute="bottom" id="TGd-Yv-wuh"/>
                                                 <constraint firstItem="8B1-u8-cgP" firstAttribute="top" secondItem="Jx0-m4-JR1" secondAttribute="top" constant="15" id="XnN-CS-qYG"/>
                                                 <constraint firstItem="GVe-AI-mBU" firstAttribute="top" secondItem="pOE-gI-gGI" secondAttribute="bottom" constant="2.5" id="cam-bW-qGc"/>
+                                                <constraint firstItem="D2x-AU-PE2" firstAttribute="centerY" secondItem="Jx0-m4-JR1" secondAttribute="centerY" id="d8o-ew-isq"/>
+                                                <constraint firstItem="D2x-AU-PE2" firstAttribute="leading" secondItem="IWM-Sx-meE" secondAttribute="trailing" constant="7.5" id="hk8-7U-5xg"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="IWM-Sx-meE" secondAttribute="trailing" constant="32" id="kHw-ak-QCF"/>
                                                 <constraint firstItem="IWM-Sx-meE" firstAttribute="top" secondItem="Jx0-m4-JR1" secondAttribute="topMargin" constant="4" id="km6-Cx-f1X"/>
                                                 <constraint firstItem="pOE-gI-gGI" firstAttribute="leading" secondItem="8B1-u8-cgP" secondAttribute="trailing" constant="8" symbolic="YES" id="vaX-Gy-Ncw"/>
@@ -70,6 +76,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="D2x-AU-PE2" id="h44-ch-SEd"/>
                                             <outlet property="artistImageView" destination="8B1-u8-cgP" id="cnc-oc-Vdd"/>
                                             <outlet property="artistNameLabel" destination="pOE-gI-gGI" id="TMn-7h-ACv"/>
                                             <outlet property="durationLabel" destination="GVe-AI-mBU" id="jue-H7-x8M"/>

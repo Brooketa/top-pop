@@ -53,7 +53,7 @@ class ChartViewController: UIViewController {
         })
     }
     
-    private func showAlbumInfo(album: Album, for track: Track) {
+    private func showAlbumInfo(album: Album, for track: Track, cell: ChartTableViewCell) {
         WebService.fetchAlbum(albumID: "\(album.id)", completion: { [weak self] response, error in
             if error == nil {
                 if response != nil {
@@ -69,6 +69,9 @@ class ChartViewController: UIViewController {
                     albumDetailsViewController.albumTracks = tracks
                     
                     self?.present(albumDetailsViewController, animated: true, completion: nil)
+                    
+                    cell.activityIndicator.isHidden = true
+                    cell.activityIndicator.stopAnimating()
                 }
             } else {
                 print("Error message: \(error as Any)")
@@ -123,11 +126,16 @@ class ChartViewController: UIViewController {
 extension ChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? ChartTableViewCell else { return }
+        cell.activityIndicator.isHidden = false
+        cell.activityIndicator.startAnimating()
+        
         let track = tracks[indexPath.row]
         
         guard let album = track.album else { return }
         
-        showAlbumInfo(album: album, for: track)
+        showAlbumInfo(album: album, for: track, cell: cell)
     }
 }
 

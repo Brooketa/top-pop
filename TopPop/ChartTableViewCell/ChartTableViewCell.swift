@@ -14,6 +14,7 @@ class ChartTableViewCell: UITableViewCell {
     @IBOutlet weak var trackTitleLabel: UILabel!
     @IBOutlet weak var artistNameLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     static let cellIdentifier = "ChartTableViewCell"
     
@@ -27,5 +28,6 @@ class ChartTableViewCell: UITableViewCell {
         trackTitleLabel.text = "\(position). " + track.title
         artistNameLabel.text = artist.name
         durationLabel.text = "Duration: " + String().secondsToMinutesSeconds(seconds: track.duration)
+        activityIndicator.isHidden = true
     }
 }
