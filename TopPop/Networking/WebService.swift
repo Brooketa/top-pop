@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIConstants {
-    static let albumRequestURL = "https://api.deezer.com/album/219360562"
+    static let albumRequestURL = "https://api.deezer.com/album/"
     static let tracksRequestURL = "https://api.deezer.com/chart"
 }
 
@@ -42,7 +42,7 @@ class WebService {
     
     static func fetchAlbum(albumID:String, completion: @escaping (AlbumResponse?, Error?) -> Void) {
         
-        guard let tracksURL = URL(string: APIConstants.albumRequestURL) else { return }
+        guard let tracksURL = URL(string: APIConstants.albumRequestURL + albumID) else { return }
         
         Network.request(url: tracksURL, completion: { data, error in
             

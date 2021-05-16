@@ -17,20 +17,61 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
         
         let menuButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(showMenu))
+        menuButton.tintColor = .systemGray
         navigationItem.rightBarButtonItem = menuButton
         
+        //Table View Configuration
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = UIRefreshControl(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        tableView.refreshControl?.tintColor = .systemGray
+        tableView.refreshControl?.addTarget(self, action: #selector(getTracks), for: UIControl.Event.valueChanged)
         
+        getTracks()
+    }
+    
+    @objc private func getTracks() {
         WebService.fetchTracks(completion: { [weak self] response, error in
+            let isRefreshing = self?.tableView.refreshControl?.isRefreshing
             if error == nil {
                 if response != nil {
                     guard let tracks = response?.tracksData.tracks else { return }
                     self?.tracks = tracks
-                    self?.tableView.reloadData()
+                    UIView.animate(withDuration: 0.3, animations: {
+                        if isRefreshing != nil {
+                            self?.tableView.refreshControl?.endRefreshing()
+                        }
+                        self?.tableView.reloadData()
+                    })
                 }
             } else {
-                print(error as Any)
+                if isRefreshing != nil {
+                    self?.tableView.refreshControl?.endRefreshing()
+                    print("Error message: \(error as Any)")
+                }
+            }
+        })
+    }
+    
+    private func showAlbumInfo(album: Album, for track: Track) {
+        WebService.fetchAlbum(albumID: "\(album.id)", completion: { [weak self] response, error in
+            if error == nil {
+                if response != nil {
+                    guard let tracks = response?.tracksData.tracks else { return }
+                                        
+                    let storyboard = UIStoryboard(name: "AlbumDetails", bundle: nil)
+                    
+                    guard let albumDetailsViewController = storyboard.instantiateViewController(identifier: AlbumDetailsViewController.identifier) as? AlbumDetailsViewController else { return }
+                    
+                    albumDetailsViewController.albumCoverImageURL = response?.coverImageURL
+                    albumDetailsViewController.album = album
+                    albumDetailsViewController.track = track
+                    albumDetailsViewController.albumTracks = tracks
+                    
+                    self?.present(albumDetailsViewController, animated: true, completion: nil)
+                }
+            } else {
+                print("Error message: \(error as Any)")
             }
         })
     }
@@ -48,9 +89,12 @@ class ChartViewController: UIViewController {
             self?.sortTracks(sortType: 2)
         })
         
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
         alert.addAction(positionDesc)
         alert.addAction(durationDesc)
         alert.addAction(durationAsc)
+        alert.addAction(cancel)
 
         self.present(alert, animated: true, completion: nil)
     }
@@ -75,9 +119,15 @@ class ChartViewController: UIViewController {
         tableView.reloadData()
     }
 }
+
 extension ChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let track = tracks[indexPath.row]
+        
+        guard let album = track.album else { return }
+        
+        showAlbumInfo(album: album, for: track)
     }
 }
 
@@ -93,7 +143,7 @@ extension ChartViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let track = tracks[indexPath.row]
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: ChartTableViewCell.cellIdentifier) as! ChartTableViewCell
         cell.configure(with: track)
         
