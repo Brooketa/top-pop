@@ -47,13 +47,16 @@ class ChartViewController: UIViewController {
             } else {
                 if isRefreshing != nil {
                     self?.tableView.refreshControl?.endRefreshing()
-                    print("Error message: \(error as Any)")
                 }
+                self?.displayError(message: "Unable to fetch data from the server")
             }
         })
     }
     
     private func showAlbumInfo(album: Album, for track: Track, cell: ChartTableViewCell) {
+        cell.activityIndicator.isHidden = false
+        cell.activityIndicator.startAnimating()
+        
         WebService.fetchAlbum(albumID: "\(album.id)", completion: { [weak self] response, error in
             if error == nil {
                 if response != nil {
@@ -69,17 +72,24 @@ class ChartViewController: UIViewController {
                     albumDetailsViewController.albumTracks = tracks
                     
                     self?.present(albumDetailsViewController, animated: true, completion: nil)
-                    
-                    cell.activityIndicator.isHidden = true
-                    cell.activityIndicator.stopAnimating()
                 }
             } else {
-                print("Error message: \(error as Any)")
+                self?.displayError(message: "Unable to fetch data from the server")
             }
+            cell.activityIndicator.isHidden = true
+            cell.activityIndicator.stopAnimating()
         })
     }
     
+    private func displayError(message: String) {
+        let alert = UIAlertController(title: "An error occured", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+//MARK: Sort Menu
     @objc private func showMenu() {
+        //When presenting as actionSheet it attempts to break constraint. Apparently Apple's bug.
         let alert = UIAlertController(title: "Select sort type", message: nil, preferredStyle: .actionSheet)
         
         let positionDesc = UIAlertAction(title: "Position Desc", style: .default, handler: { [weak self] action in
@@ -123,13 +133,12 @@ class ChartViewController: UIViewController {
     }
 }
 
+//MARK: TableView Delegate
 extension ChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         guard let cell = tableView.cellForRow(at: indexPath) as? ChartTableViewCell else { return }
-        cell.activityIndicator.isHidden = false
-        cell.activityIndicator.startAnimating()
         
         let track = tracks[indexPath.row]
         
@@ -139,6 +148,7 @@ extension ChartViewController: UITableViewDelegate {
     }
 }
 
+//MARK: TableView Data Source
 extension ChartViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

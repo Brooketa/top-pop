@@ -31,6 +31,7 @@ class AlbumDetailsViewController: UIViewController {
     private func loadAlbumInfo() {
         guard let albumCoverImageURL = albumCoverImageURL else { return }
         albumCoverImageView.sd_setImage(with: URL(string: albumCoverImageURL), placeholderImage: nil, options: SDWebImageOptions.highPriority, completed: nil)
+        albumCoverImageView.roundCorners(withCornerRadius: 3.0)
         
         if let album = album {
             albumTitleLabel.text = "Album: " + album.title
