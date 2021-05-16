@@ -38,13 +38,13 @@ class ChartViewController: UIViewController {
     @objc private func showMenu() {
         let alert = UIAlertController(title: "Select sort type", message: nil, preferredStyle: .actionSheet)
         
-        let positionDesc = UIAlertAction(title: "Position descending", style: .default, handler: { [weak self] action in
+        let positionDesc = UIAlertAction(title: "Position Desc", style: .default, handler: { [weak self] action in
             self?.sortTracks(sortType: 0)
         })
-        let durationDesc = UIAlertAction(title: "Duration descending", style: .default, handler: { [weak self] action in
+        let durationDesc = UIAlertAction(title: "Duration Desc", style: .default, handler: { [weak self] action in
             self?.sortTracks(sortType: 1)
         })
-        let durationAsc = UIAlertAction(title: "Duration ascending", style: .default, handler: { [weak self] action in
+        let durationAsc = UIAlertAction(title: "Duration Asc", style: .default, handler: { [weak self] action in
             self?.sortTracks(sortType: 2)
         })
         
@@ -58,7 +58,10 @@ class ChartViewController: UIViewController {
     private func sortTracks(sortType: Int) {
         switch sortType {
         case 0:
-            tracks = tracks.sorted(by: { $0.position! < $1.position! })
+            tracks = tracks.sorted(by: {
+                guard let pos0 = $0.position, let pos1 = $1.position else { return false }
+                return pos0 < pos1
+            })
             break
         case 1:
             tracks = tracks.sorted(by: { $0.duration > $1.duration })
