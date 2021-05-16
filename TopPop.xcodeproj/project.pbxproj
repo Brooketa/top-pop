@@ -107,12 +107,12 @@
 		70AA589F264E92A6009CD559 /* TopPop */ = {
 			isa = PBXGroup;
 			children = (
-				70D6039C26517D0700F53885 /* Extensions */,
-				70D6039926517B1A00F53885 /* ChartTableViewCell */,
 				70AA58BF264E9AE2009CD559 /* Networking */,
-				70AA58B6264E966D009CD559 /* Model */,
+				70AA58B6264E966D009CD559 /* Models */,
+				70E2437B2651DD51002FA028 /* Cells */,
 				709D58452651CC5B00600986 /* ViewControllers */,
 				709D58442651CC5100600986 /* Screens */,
+				70D6039C26517D0700F53885 /* Extensions */,
 				70AA58A0264E92A6009CD559 /* AppDelegate.swift */,
 				70AA58A2264E92A6009CD559 /* SceneDelegate.swift */,
 				70AA58A9264E92A9009CD559 /* Assets.xcassets */,
@@ -122,7 +122,7 @@
 			path = TopPop;
 			sourceTree = "<group>";
 		};
-		70AA58B6264E966D009CD559 /* Model */ = {
+		70AA58B6264E966D009CD559 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				70AA58B9264E973F009CD559 /* Album.swift */,
@@ -132,7 +132,7 @@
 				70AA58BD264E99E5009CD559 /* TracksData.swift */,
 				70AA58BB264E98CE009CD559 /* TracksResponse.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		70AA58BF264E9AE2009CD559 /* Networking */ = {
@@ -159,6 +159,14 @@
 				70D6039F265186D200F53885 /* UIImageViewExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		70E2437B2651DD51002FA028 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				70D6039926517B1A00F53885 /* ChartTableViewCell */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		A1A8CB220DBD9D24884BFE25 /* Frameworks */ = {

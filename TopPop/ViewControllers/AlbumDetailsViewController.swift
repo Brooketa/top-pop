@@ -33,15 +33,15 @@ class AlbumDetailsViewController: UIViewController {
         albumCoverImageView.sd_setImage(with: URL(string: albumCoverImageURL), placeholderImage: nil, options: SDWebImageOptions.highPriority, completed: nil)
         
         if let album = album {
-            albumTitleLabel.text = "Album title: " + album.title
+            albumTitleLabel.text = "Album: " + album.title
         }
         
         if let track = track {
-            trackTitleLabel.text = "Track title: " + track.title
+            trackTitleLabel.text = "Track: " + track.title
         }
         
         if let artist = track.artist {
-            artistNameLabel.text = "Artist name: " + artist.name
+            artistNameLabel.text = "Artist: " + artist.name
         }
         
         var trackListString: String = "Track List: \n\n"
