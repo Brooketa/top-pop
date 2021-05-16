@@ -23,16 +23,9 @@ class ChartTableViewCell: UITableViewCell {
         guard let position = track.position else { return }
         
         artistImageView.sd_setImage(with: URL(string: artistImageURL), placeholderImage: nil, options: SDWebImageOptions.highPriority, completed: nil)
+        artistImageView.roundCorners(withCornerRadius: 3.0)
         trackTitleLabel.text = "\(position). " + track.title
         artistNameLabel.text = artist.name
         durationLabel.text = "Duration: " + String().secondsToMinutesSeconds(seconds: track.duration)
-        configureArtistImageBorder()
-    }
-    
-    private func configureArtistImageBorder() {
-        self.artistImageView.layer.cornerRadius = 3.0
-        self.artistImageView.layer.borderWidth = 1.0
-        self.artistImageView.layer.borderColor = UIColor.clear.cgColor
-        self.artistImageView.layer.masksToBounds = true
     }
 }

@@ -16,6 +16,9 @@ class ChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let menuButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(showMenu))
+        navigationItem.rightBarButtonItem = menuButton
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -31,8 +34,44 @@ class ChartViewController: UIViewController {
             }
         })
     }
-}
+    
+    @objc private func showMenu() {
+        let alert = UIAlertController(title: "Select sort type", message: nil, preferredStyle: .actionSheet)
+        
+        let positionDesc = UIAlertAction(title: "Position descending", style: .default, handler: { [weak self] action in
+            self?.sortTracks(sortType: 0)
+        })
+        let durationDesc = UIAlertAction(title: "Duration descending", style: .default, handler: { [weak self] action in
+            self?.sortTracks(sortType: 1)
+        })
+        let durationAsc = UIAlertAction(title: "Duration ascending", style: .default, handler: { [weak self] action in
+            self?.sortTracks(sortType: 2)
+        })
+        
+        alert.addAction(positionDesc)
+        alert.addAction(durationDesc)
+        alert.addAction(durationAsc)
 
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func sortTracks(sortType: Int) {
+        switch sortType {
+        case 0:
+            tracks = tracks.sorted(by: { $0.position! < $1.position! })
+            break
+        case 1:
+            tracks = tracks.sorted(by: { $0.duration > $1.duration })
+            break
+        case 2:
+            tracks = tracks.sorted(by: { $0.duration < $1.duration })
+            break
+        default:
+            break
+        }
+        tableView.reloadData()
+    }
+}
 extension ChartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

@@ -24,6 +24,7 @@
 		70AA58C5264EA1F1009CD559 /* AlbumResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA58C4264EA1F1009CD559 /* AlbumResponse.swift */; };
 		70D6039B26517B4500F53885 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6039A26517B4500F53885 /* ChartTableViewCell.swift */; };
 		70D6039E26517D1600F53885 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6039D26517D1600F53885 /* StringExtensions.swift */; };
+		70D603A0265186D200F53885 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6039F265186D200F53885 /* UIImageViewExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		70AA58C4264EA1F1009CD559 /* AlbumResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumResponse.swift; sourceTree = "<group>"; };
 		70D6039A26517B4500F53885 /* ChartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTableViewCell.swift; sourceTree = "<group>"; };
 		70D6039D26517D1600F53885 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		70D6039F265186D200F53885 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		AC5D8F47DF64E644EF4BD8C2 /* Pods-TopPop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopPop.debug.xcconfig"; path = "Target Support Files/Pods-TopPop/Pods-TopPop.debug.xcconfig"; sourceTree = "<group>"; };
 		EDCEF6F7A1E68748E8743622 /* Pods_TopPop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopPop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				70D6039D26517D1600F53885 /* StringExtensions.swift */,
+				70D6039F265186D200F53885 /* UIImageViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70D603A0265186D200F53885 /* UIImageViewExtensions.swift in Sources */,
 				70D6039B26517B4500F53885 /* ChartTableViewCell.swift in Sources */,
 				70AA58C3264E9B32009CD559 /* Network.swift in Sources */,
 				70AA58C1264E9B23009CD559 /* WebService.swift in Sources */,
