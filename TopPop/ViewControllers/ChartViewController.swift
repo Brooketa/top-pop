@@ -7,6 +7,12 @@
 
 import UIKit
 
+private enum TracksSortType {
+    case positionDesc
+    case durationDesc
+    case durationAsc
+}
+
 class ChartViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +37,7 @@ class ChartViewController: UIViewController {
     }
     
     @objc private func getTracks() {
-        WebService.fetchTracks(completion: { [weak self] response, error in
+        WebService.fetchData(completion: { [weak self] (response: TracksResponse?, error) in
             let isRefreshing = self?.tableView.refreshControl?.isRefreshing
             if error == nil {
                 if response != nil {
@@ -57,7 +63,7 @@ class ChartViewController: UIViewController {
         cell.activityIndicator.isHidden = false
         cell.activityIndicator.startAnimating()
         
-        WebService.fetchAlbum(albumID: "\(album.id)", completion: { [weak self] response, error in
+        WebService.fetchData(albumID: "\(album.id)", completion: { [weak self] (response: AlbumResponse?, error) in
             if error == nil {
                 if response != nil {
                     guard let tracks = response?.tracksData.tracks else { return }
@@ -93,13 +99,13 @@ class ChartViewController: UIViewController {
         let alert = UIAlertController(title: "Select sort type", message: nil, preferredStyle: .actionSheet)
         
         let positionDesc = UIAlertAction(title: "Position Desc", style: .default, handler: { [weak self] action in
-            self?.sortTracks(sortType: 0)
+            self?.sortTracks(sortType: .positionDesc)
         })
         let durationDesc = UIAlertAction(title: "Duration Desc", style: .default, handler: { [weak self] action in
-            self?.sortTracks(sortType: 1)
+            self?.sortTracks(sortType: .durationDesc)
         })
         let durationAsc = UIAlertAction(title: "Duration Asc", style: .default, handler: { [weak self] action in
-            self?.sortTracks(sortType: 2)
+            self?.sortTracks(sortType: .durationAsc)
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -112,21 +118,19 @@ class ChartViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func sortTracks(sortType: Int) {
+    private func sortTracks(sortType: TracksSortType) {
         switch sortType {
-        case 0:
+        case .positionDesc:
             tracks = tracks.sorted(by: {
                 guard let pos0 = $0.position, let pos1 = $1.position else { return false }
                 return pos0 < pos1
             })
             break
-        case 1:
+        case .durationDesc:
             tracks = tracks.sorted(by: { $0.duration > $1.duration })
             break
-        case 2:
+        case .durationAsc:
             tracks = tracks.sorted(by: { $0.duration < $1.duration })
-            break
-        default:
             break
         }
         tableView.reloadData()

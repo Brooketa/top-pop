@@ -14,11 +14,19 @@ struct APIConstants {
 
 class WebService {
     
-    static func fetchTracks(completion: @escaping (TracksResponse?, Error?) -> Void) {
+    static func fetchData<T:Codable>(albumID:String? = nil, completion: @escaping (T?, Error?) -> Void) {
         
-        guard let tracksURL = URL(string: APIConstants.tracksRequestURL) else { return }
+        var url:URL?
         
-        Network.request(url: tracksURL, completion: { data, error in
+        if let albumID = albumID {
+            url = URL(string: APIConstants.albumRequestURL + albumID)
+        } else {
+            url = URL(string: APIConstants.tracksRequestURL)
+        }
+        
+        guard let url = url else { return }
+        
+        Network.request(url: url, completion: { data, error in
             
             if let error = error {
                 print("Finished with error: \(error.localizedDescription)")
@@ -31,7 +39,7 @@ class WebService {
                 return
             }
             do {
-                let result = try JSONDecoder().decode(TracksResponse.self, from: data)
+                let result = try JSONDecoder().decode(T.self, from: data)
                 completion(result, nil)
             } catch {
                 completion(nil, error)
@@ -39,32 +47,5 @@ class WebService {
             }
         })
     }
-    
-    static func fetchAlbum(albumID:String, completion: @escaping (AlbumResponse?, Error?) -> Void) {
-        
-        guard let tracksURL = URL(string: APIConstants.albumRequestURL + albumID) else { return }
-        
-        Network.request(url: tracksURL, completion: { data, error in
-            
-            if let error = error {
-                print("Finished with error: \(error.localizedDescription)")
-                completion(nil, error)
-                return
-            }
-            
-            guard let data = data else {
-                completion(nil, nil)
-                return
-            }
-            do {
-                let result = try JSONDecoder().decode(AlbumResponse.self, from: data)
-                completion(result, nil)
-            } catch {
-                completion(nil, error)
-                print(error)
-            }
-        })
-    }
-    
 }
 
